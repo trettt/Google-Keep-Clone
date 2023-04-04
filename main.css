@@ -1,0 +1,49 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.top-part {
+  width: 100%;
+  height: 5vh;
+
+  background-color: rgb(225, 215, 255);
+
+  display: flex;
+  align-items: center;
+
+  margin-bottom: 25px;
+}
+
+.top-part p {
+  font-size: 4.5vh;
+  margin-left: 3vh;
+
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.top-part input[type="text"] {
+  font-size: 2vh;
+  height: 3.5vh;
+
+  margin-left: 5vh;
+
+  width: 50vh;
+
+  background-image: url('https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-search-strong-512.png');
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  background-size: 2.5vh 2.5vh;
+  padding-left: 40px; 
+}
+
+.top-part img{
+    height: 4vh;
+    margin-left: 10px;
+}
+
+.note-input {
+  display: flex;
+  justify-content: center;
+}
