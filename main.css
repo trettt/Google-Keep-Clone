@@ -59,8 +59,11 @@
 .add-note-input textarea[type="text"] {
   font-size: 2vh;
 
-  height: 3.5vh;
-  width: 50vh;
+  min-height: 3.5vh;
+  min-width: 50vh;
+
+  max-height: 3.5vh;
+  max-width: 50vh;
 
   border: none;
   background-color: rgb(225, 215, 255);
@@ -86,7 +89,26 @@
 
 .buttons {
   display: flex;
-  justify-content: space-evenly;
-  margin: 10px;
+  align-items: center;
   gap: 10px;
+  margin-bottom: 5px;
+}
+
+.save-button {
+  border-radius: 5px;
+  cursor: pointer;
+  height: 3vh;
+  width: 7vh;
+}
+
+.color-input {
+  border-radius: 5px;
+  height: 3vh;
+  width: 7vh;
+  margin: none;
+}
+
+.image-input {
+  height: 3vh;
+  width: 9.5vh;
 }

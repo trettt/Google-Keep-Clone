@@ -33,9 +33,17 @@ noteTextArea === null || noteTextArea === void 0 ? void 0 : noteTextArea.addEven
                 document.removeEventListener("click", clickOutsideHandler_1);
                 extendedNote = 0;
                 noteTextArea.value = "";
+                noteTextArea.style.backgroundColor = "rgb(225, 215, 255)";
+                addNoteInput.style.backgroundColor = "rgb(225, 215, 255)";
             }
         };
         document.addEventListener("click", clickOutsideHandler_1);
+        changeBackground_1 === null || changeBackground_1 === void 0 ? void 0 : changeBackground_1.addEventListener("input", function (event) {
+            var newColor = event.target.value;
+            addNoteInput.style.backgroundColor = newColor;
+            titleInput_1.style.backgroundColor = newColor;
+            noteTextArea.style.backgroundColor = newColor;
+        });
     }
 });
 noteTextArea === null || noteTextArea === void 0 ? void 0 : noteTextArea.addEventListener("input", function () {

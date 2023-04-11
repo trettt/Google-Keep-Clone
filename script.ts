@@ -1,7 +1,9 @@
 const noteTextArea = document.getElementById(
   "takeNoteTextArea"
 ) as HTMLTextAreaElement;
-const addNoteInput = document.querySelector(".add-note-input") as HTMLElement;
+const addNoteInput = document.querySelector(
+  ".add-note-input"
+) as HTMLDivElement;
 
 let extendedNote = 0;
 
@@ -44,9 +46,17 @@ noteTextArea?.addEventListener("click", () => {
         document.removeEventListener("click", clickOutsideHandler);
         extendedNote = 0;
         noteTextArea.value = "";
+        noteTextArea.style.backgroundColor = "rgb(225, 215, 255)";
+        addNoteInput.style.backgroundColor = "rgb(225, 215, 255)";
       }
     };
     document.addEventListener("click", clickOutsideHandler);
+    changeBackground?.addEventListener("input", (event) => {
+      const newColor = (event.target as HTMLInputElement).value;
+      addNoteInput.style.backgroundColor = newColor;
+      titleInput.style.backgroundColor = newColor;
+      noteTextArea.style.backgroundColor = newColor;
+    });
   }
 });
 
