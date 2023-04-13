@@ -112,3 +112,9 @@
   height: 3vh;
   width: 9.5vh;
 }
+
+.image-preview {
+  width: 50vh;
+  height: auto;
+  margin-bottom: 10px;
+}

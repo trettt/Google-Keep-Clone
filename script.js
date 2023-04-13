@@ -1,6 +1,7 @@
 var noteTextArea = document.getElementById("takeNoteTextArea");
 var addNoteInput = document.querySelector(".add-note-input");
-var extendedNote = 0;
+var extendedNote = 0; //so when i press again on the write note section, the
+//title and buttons will not appear over and over again
 noteTextArea === null || noteTextArea === void 0 ? void 0 : noteTextArea.addEventListener("click", function () {
     if (extendedNote == 0) {
         var titleInput_1 = document.createElement("input");
@@ -9,27 +10,35 @@ noteTextArea === null || noteTextArea === void 0 ? void 0 : noteTextArea.addEven
         titleInput_1.classList.add("title-input");
         var buttonsHolder_1 = document.createElement("div");
         buttonsHolder_1.classList.add("buttons");
+        var imageHolder_1 = document.createElement("div");
+        imageHolder_1.classList.add("image");
         var changeBackground_1 = document.createElement("input");
         changeBackground_1.type = "color";
         changeBackground_1.classList.add("color-input");
-        var imageInput = document.createElement("input");
-        imageInput.type = "file";
-        imageInput.classList.add("image-input");
+        var fileInput = document.createElement("input");
+        fileInput.type = "file";
+        fileInput.classList.add("image-input");
+        var imagePreview_1 = document.createElement("img");
+        imagePreview_1.classList.add("image-preview");
         var saveButton = document.createElement("button");
         saveButton.type = "button";
         saveButton.textContent = "Save";
         saveButton.classList.add("save-button");
+        imageHolder_1.appendChild(imagePreview_1);
         buttonsHolder_1.appendChild(changeBackground_1);
-        buttonsHolder_1.appendChild(imageInput);
+        buttonsHolder_1.appendChild(fileInput);
         buttonsHolder_1.appendChild(saveButton);
         addNoteInput === null || addNoteInput === void 0 ? void 0 : addNoteInput.insertBefore(titleInput_1, noteTextArea);
+        addNoteInput === null || addNoteInput === void 0 ? void 0 : addNoteInput.appendChild(imageHolder_1);
         addNoteInput === null || addNoteInput === void 0 ? void 0 : addNoteInput.appendChild(buttonsHolder_1);
         extendedNote++;
+        //delete everything when pressing outside the div
         var clickOutsideHandler_1 = function (event) {
             if (!(addNoteInput === null || addNoteInput === void 0 ? void 0 : addNoteInput.contains(event.target))) {
                 titleInput_1.remove();
                 changeBackground_1.remove();
                 buttonsHolder_1.remove();
+                imageHolder_1.remove();
                 document.removeEventListener("click", clickOutsideHandler_1);
                 extendedNote = 0;
                 noteTextArea.value = "";
@@ -38,6 +47,22 @@ noteTextArea === null || noteTextArea === void 0 ? void 0 : noteTextArea.addEven
             }
         };
         document.addEventListener("click", clickOutsideHandler_1);
+        //display the image
+        fileInput.addEventListener("change", function () {
+            var file = this.files[0];
+            if (file) {
+                var reader_1 = new FileReader();
+                reader_1.addEventListener("load", function () {
+                    var result = typeof reader_1.result === "string"
+                        ? new TextEncoder().encode(reader_1.result)
+                        : reader_1.result;
+                    var url = URL.createObjectURL(new Blob([result]));
+                    imagePreview_1.src = url;
+                });
+                reader_1.readAsArrayBuffer(file);
+            }
+        });
+        //background
         changeBackground_1 === null || changeBackground_1 === void 0 ? void 0 : changeBackground_1.addEventListener("input", function (event) {
             var newColor = event.target.value;
             addNoteInput.style.backgroundColor = newColor;
