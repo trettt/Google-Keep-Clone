@@ -1,3 +1,48 @@
+var Note = /** @class */ (function () {
+    function Note(title, description, imagePath, backgroundColor) {
+        this.title = title;
+        this.description = description;
+        this.imagePath = imagePath;
+        this.backgroundColor = backgroundColor;
+    }
+    Note.prototype.getTitle = function () {
+        return this.title;
+    };
+    Note.prototype.getDescription = function () {
+        return this.description;
+    };
+    Note.prototype.displayNote = function (searchNote) {
+        var addedNoteDiv = document.querySelector(".notes-wrapper");
+        var noteArea = document.createElement("div");
+        var noteTitle = document.createElement("textarea");
+        var noteDescription = document.createElement("textarea");
+        var noteImage = document.createElement("img");
+        noteArea.classList.add("added-note");
+        noteTitle.innerHTML = this.title;
+        noteDescription.innerHTML = this.description;
+        noteImage.src = this.imagePath;
+        noteTitle.style.backgroundColor = this.backgroundColor;
+        noteDescription.style.backgroundColor = this.backgroundColor;
+        noteArea.style.backgroundColor = this.backgroundColor;
+        noteArea.appendChild(noteTitle);
+        noteArea.appendChild(noteDescription);
+        noteArea.appendChild(noteImage);
+        if (searchNote) {
+            var titleMatches = this.title
+                .toLowerCase()
+                .includes(searchNote.toLowerCase());
+            var descriptionMatches = this.description
+                .toLowerCase()
+                .includes(searchNote.toLowerCase());
+            if (!titleMatches && !descriptionMatches) {
+                noteArea.style.display = "none";
+            }
+        }
+        addedNoteDiv.appendChild(noteArea);
+    };
+    return Note;
+}());
+var notes = [];
 var noteTextArea = document.getElementById("takeNoteTextArea");
 var addNoteInput = document.querySelector(".add-note-input");
 var extendedNote = 0; //so when i press again on the write note section, the
@@ -14,6 +59,7 @@ noteTextArea === null || noteTextArea === void 0 ? void 0 : noteTextArea.addEven
         imageHolder_1.classList.add("image");
         var changeBackground_1 = document.createElement("input");
         changeBackground_1.type = "color";
+        changeBackground_1.value = "#E1D7FF";
         changeBackground_1.classList.add("color-input");
         var fileInput = document.createElement("input");
         fileInput.type = "file";
@@ -69,9 +115,35 @@ noteTextArea === null || noteTextArea === void 0 ? void 0 : noteTextArea.addEven
             titleInput_1.style.backgroundColor = newColor;
             noteTextArea.style.backgroundColor = newColor;
         });
+        //saving the note
+        saveButton.addEventListener("click", function () {
+            if (titleInput_1.value !== "" && noteTextArea.value !== "") {
+                var newNote = new Note(titleInput_1.value, noteTextArea.value, imagePreview_1.src, changeBackground_1.value);
+                notes.push(newNote);
+                newNote.displayNote();
+            }
+        });
     }
+    //extending the textarea based on the text inside
+    noteTextArea === null || noteTextArea === void 0 ? void 0 : noteTextArea.addEventListener("input", function () {
+        noteTextArea.style.height = "auto";
+        noteTextArea.style.height = noteTextArea.scrollHeight + "px";
+    });
 });
-noteTextArea === null || noteTextArea === void 0 ? void 0 : noteTextArea.addEventListener("input", function () {
-    noteTextArea.style.height = "auto";
-    noteTextArea.style.height = noteTextArea.scrollHeight + "px";
+var searchNotes = document.querySelector("#search-note");
+var notesWrapper = document.querySelector(".notes-wrapper");
+searchNotes.addEventListener("keyup", function () {
+    var searchedString = searchNotes.value;
+    var filteredNotes = notes.filter(function (note) {
+        return note.getTitle().includes(searchedString) ||
+            note.getDescription().includes(searchedString);
+    });
+    // Remove all previously displayed notes
+    while (notesWrapper.firstChild) {
+        notesWrapper.removeChild(notesWrapper.firstChild);
+    }
+    // Display filtered notes
+    filteredNotes.forEach(function (note) {
+        note.displayNote();
+    });
 });

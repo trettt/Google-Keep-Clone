@@ -1,3 +1,70 @@
+class Note {
+  private title: string;
+  private description: string;
+  private imagePath: string;
+  private backgroundColor: string;
+
+  constructor(
+    title: string,
+    description: string,
+    imagePath?: string,
+    backgroundColor?: string
+  ) {
+    this.title = title;
+    this.description = description;
+    this.imagePath = imagePath;
+    this.backgroundColor = backgroundColor;
+  }
+
+  getTitle(): string {
+    return this.title;
+  }
+
+  getDescription(): string {
+    return this.description;
+  }
+
+  displayNote(searchNote?: string): void {
+    const addedNoteDiv = document.querySelector(
+      ".notes-wrapper"
+    ) as HTMLDivElement;
+
+    const noteArea = document.createElement("div");
+    const noteTitle = document.createElement("textarea");
+    const noteDescription = document.createElement("textarea");
+    const noteImage = document.createElement("img");
+
+    noteArea.classList.add("added-note");
+    noteTitle.innerHTML = this.title;
+    noteDescription.innerHTML = this.description;
+    noteImage.src = this.imagePath;
+
+    noteTitle.style.backgroundColor = this.backgroundColor;
+    noteDescription.style.backgroundColor = this.backgroundColor;
+    noteArea.style.backgroundColor = this.backgroundColor;
+
+    noteArea.appendChild(noteTitle);
+    noteArea.appendChild(noteDescription);
+    noteArea.appendChild(noteImage);
+
+    if (searchNote) {
+      const titleMatches = this.title
+        .toLowerCase()
+        .includes(searchNote.toLowerCase());
+      const descriptionMatches = this.description
+        .toLowerCase()
+        .includes(searchNote.toLowerCase());
+      if (!titleMatches && !descriptionMatches) {
+        noteArea.style.display = "none";
+      }
+    }
+
+    addedNoteDiv.appendChild(noteArea);
+  }
+}
+
+const notes: any = [];
+
 const noteTextArea = document.getElementById(
   "takeNoteTextArea"
 ) as HTMLTextAreaElement;
@@ -23,6 +90,7 @@ noteTextArea?.addEventListener("click", () => {
 
     const changeBackground = document.createElement("input");
     changeBackground.type = "color";
+    changeBackground.value = "#E1D7FF";
     changeBackground.classList.add("color-input");
 
     const fileInput = document.createElement("input");
@@ -91,10 +159,48 @@ noteTextArea?.addEventListener("click", () => {
       titleInput.style.backgroundColor = newColor;
       noteTextArea.style.backgroundColor = newColor;
     });
+
+    //saving the note
+    saveButton.addEventListener("click", () => {
+      if (titleInput.value !== "" && noteTextArea.value !== "") {
+        const newNote = new Note(
+          titleInput.value,
+          noteTextArea.value,
+          imagePreview.src,
+          changeBackground.value
+        );
+        notes.push(newNote);
+        newNote.displayNote();
+      }
+    });
   }
+
+  //extending the textarea based on the text inside
+  noteTextArea?.addEventListener("input", () => {
+    noteTextArea.style.height = "auto";
+    noteTextArea.style.height = noteTextArea.scrollHeight + "px";
+  });
 });
 
-noteTextArea?.addEventListener("input", () => {
-  noteTextArea.style.height = "auto";
-  noteTextArea.style.height = noteTextArea.scrollHeight + "px";
+const searchNotes = <HTMLInputElement>document.querySelector("#search-note");
+const notesWrapper = document.querySelector(".notes-wrapper") as HTMLDivElement;
+
+searchNotes.addEventListener("keyup", () => {
+  const searchedString = searchNotes.value;
+
+  const filteredNotes = notes.filter(
+    (note) =>
+      note.getTitle().includes(searchedString) ||
+      note.getDescription().includes(searchedString)
+  );
+
+  // Remove all previously displayed notes
+  while (notesWrapper.firstChild) {
+    notesWrapper.removeChild(notesWrapper.firstChild);
+  }
+
+  // Display filtered notes
+  filteredNotes.forEach((note) => {
+    note.displayNote();
+  });
 });
