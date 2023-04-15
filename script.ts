@@ -48,12 +48,10 @@ class Note {
     noteArea.appendChild(noteImage);
 
     if (searchNote) {
-      const titleMatches = this.title
-        .toLowerCase()
-        .includes(searchNote.toLowerCase());
-      const descriptionMatches = this.description
-        .toLowerCase()
-        .includes(searchNote.toLowerCase());
+      const search = searchNote.toLowerCase();
+      const titleMatches = this.title.toLowerCase().indexOf(search) !== -1;
+      const descriptionMatches =
+        this.description.toLowerCase().indexOf(search) !== -1;
       if (!titleMatches && !descriptionMatches) {
         noteArea.style.display = "none";
       }
@@ -117,6 +115,16 @@ noteTextArea?.addEventListener("click", () => {
 
     //delete everything when pressing outside the div
     const clickOutsideHandler = (event: MouseEvent) => {
+      if (titleInput.value !== "" && noteTextArea.value !== "") {
+        const newNote = new Note(
+          titleInput.value,
+          noteTextArea.value,
+          imagePreview.src,
+          changeBackground.value
+        );
+        notes.push(newNote);
+        newNote.displayNote();
+      }
       if (!addNoteInput?.contains(event.target as Node)) {
         titleInput.remove();
         changeBackground.remove();
@@ -172,6 +180,16 @@ noteTextArea?.addEventListener("click", () => {
         notes.push(newNote);
         newNote.displayNote();
       }
+
+      titleInput.remove();
+      changeBackground.remove();
+      buttonsHolder.remove();
+      imageHolder.remove();
+      document.removeEventListener("click", clickOutsideHandler);
+      extendedNote = 0;
+      noteTextArea.value = "";
+      noteTextArea.style.backgroundColor = "rgb(225, 215, 255)";
+      addNoteInput.style.backgroundColor = "rgb(225, 215, 255)";
     });
   }
 

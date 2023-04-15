@@ -28,12 +28,9 @@ var Note = /** @class */ (function () {
         noteArea.appendChild(noteDescription);
         noteArea.appendChild(noteImage);
         if (searchNote) {
-            var titleMatches = this.title
-                .toLowerCase()
-                .includes(searchNote.toLowerCase());
-            var descriptionMatches = this.description
-                .toLowerCase()
-                .includes(searchNote.toLowerCase());
+            var search = searchNote.toLowerCase();
+            var titleMatches = this.title.toLowerCase().indexOf(search) !== -1;
+            var descriptionMatches = this.description.toLowerCase().indexOf(search) !== -1;
             if (!titleMatches && !descriptionMatches) {
                 noteArea.style.display = "none";
             }
@@ -43,6 +40,16 @@ var Note = /** @class */ (function () {
     return Note;
 }());
 var notes = [];
+var savedNotes = localStorage.getItem("notes");
+if (savedNotes) {
+    var parsedNotes = JSON.parse(savedNotes);
+    notes.push.apply(notes, parsedNotes);
+    parsedNotes.forEach(function (note) { return note.displayNote(); });
+}
+function saveNote() {
+    var json = JSON.stringify(notes);
+    localStorage.setItem("notes", json);
+}
 var noteTextArea = document.getElementById("takeNoteTextArea");
 var addNoteInput = document.querySelector(".add-note-input");
 var extendedNote = 0; //so when i press again on the write note section, the
@@ -80,6 +87,12 @@ noteTextArea === null || noteTextArea === void 0 ? void 0 : noteTextArea.addEven
         extendedNote++;
         //delete everything when pressing outside the div
         var clickOutsideHandler_1 = function (event) {
+            if (titleInput_1.value !== "" && noteTextArea.value !== "") {
+                var newNote = new Note(titleInput_1.value, noteTextArea.value, imagePreview_1.src, changeBackground_1.value);
+                notes.push(newNote);
+                newNote.displayNote();
+                saveNote();
+            }
             if (!(addNoteInput === null || addNoteInput === void 0 ? void 0 : addNoteInput.contains(event.target))) {
                 titleInput_1.remove();
                 changeBackground_1.remove();
@@ -121,7 +134,17 @@ noteTextArea === null || noteTextArea === void 0 ? void 0 : noteTextArea.addEven
                 var newNote = new Note(titleInput_1.value, noteTextArea.value, imagePreview_1.src, changeBackground_1.value);
                 notes.push(newNote);
                 newNote.displayNote();
+                saveNote();
             }
+            titleInput_1.remove();
+            changeBackground_1.remove();
+            buttonsHolder_1.remove();
+            imageHolder_1.remove();
+            document.removeEventListener("click", clickOutsideHandler_1);
+            extendedNote = 0;
+            noteTextArea.value = "";
+            noteTextArea.style.backgroundColor = "rgb(225, 215, 255)";
+            addNoteInput.style.backgroundColor = "rgb(225, 215, 255)";
         });
     }
     //extending the textarea based on the text inside
