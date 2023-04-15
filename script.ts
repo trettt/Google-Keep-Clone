@@ -115,26 +115,26 @@ noteTextArea?.addEventListener("click", () => {
 
     //delete everything when pressing outside the div
     const clickOutsideHandler = (event: MouseEvent) => {
-      if (titleInput.value !== "" && noteTextArea.value !== "") {
-        const newNote = new Note(
-          titleInput.value,
-          noteTextArea.value,
-          imagePreview.src,
-          changeBackground.value
-        );
-        notes.push(newNote);
-        newNote.displayNote();
-      }
       if (!addNoteInput?.contains(event.target as Node)) {
-        titleInput.remove();
-        changeBackground.remove();
-        buttonsHolder.remove();
-        imageHolder.remove();
-        document.removeEventListener("click", clickOutsideHandler);
-        extendedNote = 0;
-        noteTextArea.value = "";
-        noteTextArea.style.backgroundColor = "rgb(225, 215, 255)";
-        addNoteInput.style.backgroundColor = "rgb(225, 215, 255)";
+        if (titleInput.value !== "" && noteTextArea.value !== "") {
+          const newNote = new Note(
+            titleInput.value,
+            noteTextArea.value,
+            imagePreview.src,
+            changeBackground.value
+          );
+          notes.push(newNote);
+          newNote.displayNote();
+          titleInput.remove();
+          changeBackground.remove();
+          buttonsHolder.remove();
+          imageHolder.remove();
+          document.removeEventListener("click", clickOutsideHandler);
+          extendedNote = 0;
+          noteTextArea.value = "";
+          noteTextArea.style.backgroundColor = "rgb(225, 215, 255)";
+          addNoteInput.style.backgroundColor = "rgb(225, 215, 255)";
+        }
       }
     };
     document.addEventListener("click", clickOutsideHandler);
