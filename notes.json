@@ -1,0 +1,109 @@
+{
+  "notes": [
+    {
+      "id": 1,
+      "title": "aa",
+      "description": "aa",
+      "imagePath": "",
+      "backgroundColor": "#e1d7ff"
+    },
+    {
+      "id": 2,
+      "title": "aaa",
+      "description": "aa",
+      "imagePath": "",
+      "backgroundColor": "#e1d7ff"
+    },
+    {
+      "id": 3,
+      "title": "aa",
+      "description": "aa",
+      "imagePath": "",
+      "backgroundColor": "#e1d7ff"
+    },
+    {
+      "id": 4,
+      "title": "aa",
+      "description": "aaa",
+      "imagePath": "",
+      "backgroundColor": "#e1d7ff"
+    },
+    {
+      "id": 5,
+      "title": "ta",
+      "description": "mama",
+      "imagePath": "",
+      "backgroundColor": "#e1d7ff"
+    },
+    {
+      "id": 6,
+      "title": "pastele",
+      "description": "mamei tale",
+      "imagePath": "blob:http://127.0.0.1:5501/cbc721a1-00ad-42f5-82d5-bcf2ac3b969a",
+      "backgroundColor": "#907bd1"
+    },
+    {
+      "id": 7,
+      "title": "hvjvjv",
+      "description": "nmnmnmn",
+      "imagePath": "",
+      "backgroundColor": "#e1d7ff"
+    },
+    {
+      "id": 8,
+      "title": "aaa",
+      "description": "aaa",
+      "imagePath": "",
+      "backgroundColor": "#e1d7ff"
+    },
+    {
+      "id": 9,
+      "title": "aaa",
+      "description": "aaa",
+      "imagePath": "",
+      "backgroundColor": "#e1d7ff"
+    },
+    {
+      "id": 10,
+      "title": "aaa",
+      "description": "aaa",
+      "imagePath": "",
+      "backgroundColor": "#e1d7ff"
+    },
+    {
+      "id": 11,
+      "title": "aaa",
+      "description": "aaa",
+      "imagePath": "",
+      "backgroundColor": "#e1d7ff"
+    },
+    {
+      "id": 12,
+      "title": "aaa",
+      "description": "aaa",
+      "imagePath": "",
+      "backgroundColor": "#e1d7ff"
+    },
+    {
+      "id": 13,
+      "title": "aaa",
+      "description": "aaa",
+      "imagePath": "",
+      "backgroundColor": "#e1d7ff"
+    },
+    {
+      "id": 14,
+      "title": "uuuu",
+      "description": "nu ",
+      "imagePath": "blob:http://127.0.0.1:5501/b5b7f3e5-72f7-4dfb-a552-d7424c4b146d",
+      "backgroundColor": "#e1d7ff"
+    },
+    {
+      "id": 15,
+      "title": "nnn",
+      "description": "uuu",
+      "imagePath": "blob:http://127.0.0.1:5501/974bfab1-cd42-4c12-9143-82cd8488fc24",
+      "backgroundColor": "#6651a4"
+    }
+  ]
+}

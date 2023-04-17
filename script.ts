@@ -146,7 +146,7 @@ class Note {
       displayNotesAfterEditing();
     });
 
-    modalDeleteButton.addEventListener("click", () => {
+    modalDeleteButton.addEventListener("click", async () => {
       document.body.removeChild(modalArea);
       const backgroundClass = document.querySelector(".background");
       backgroundClass.classList.remove("blur");
@@ -154,7 +154,7 @@ class Note {
     });
   }
 
-  displayNote(searchNote?: string): void {
+  displayNote(searchNote?: string) {
     const addedNoteDiv = document.querySelector(
       ".notes-wrapper"
     ) as HTMLDivElement;
@@ -199,6 +199,44 @@ class Note {
 
 let notes: any = [];
 let idCounter: number = 0;
+const notesUrl = "http://localhost:3000/notes";
+
+async function getNotes() {
+  const res = await fetch(notesUrl);
+  const notes = await res.json();
+  return notes.map(
+    (note: any) =>
+      new Note(
+        note.title,
+        note.description,
+        note.imagePath,
+        note.backgroundColor,
+        note.id
+      )
+  );
+}
+
+async function displayTheNotes() {
+  notes = await getNotes();
+
+  console.log(notes);
+
+  notes.forEach(async (note) => {
+    note.displayNote();
+  });
+}
+
+function addNote(newNote: Note) {
+  fetch(notesUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(newNote),
+  });
+}
+
+displayTheNotes();
 
 const noteTextArea = document.getElementById(
   "takeNoteTextArea"
@@ -261,8 +299,9 @@ noteTextArea?.addEventListener("click", () => {
             changeBackground.value,
             idCounter++
           );
-          notes.push(newNote);
-          newNote.displayNote();
+          // notes.push(newNote);
+          // newNote.displayNote();
+          addNote(newNote);
 
           titleInput.remove();
           changeBackground.remove();
@@ -317,9 +356,7 @@ noteTextArea?.addEventListener("click", () => {
           changeBackground.value,
           idCounter++
         );
-        notes.push(newNote);
-        newNote.displayNote();
-        console.log(notes);
+        addNote(newNote);
       }
 
       titleInput.remove();
