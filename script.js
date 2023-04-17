@@ -1,17 +1,115 @@
 var Note = /** @class */ (function () {
-    function Note(title, description, imagePath, backgroundColor) {
+    function Note(title, description, imagePath, backgroundColor, id) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.imagePath = imagePath;
         this.backgroundColor = backgroundColor;
     }
+    //getters
+    Note.prototype.getId = function () {
+        return this.id;
+    };
     Note.prototype.getTitle = function () {
         return this.title;
     };
     Note.prototype.getDescription = function () {
         return this.description;
     };
+    Note.prototype.getImagePath = function () {
+        return this.imagePath;
+    };
+    Note.prototype.getBackgroundColor = function () {
+        return this.backgroundColor;
+    };
+    //setters
+    Note.prototype.setTitle = function (title) {
+        this.title = title;
+    };
+    Note.prototype.setDescription = function (description) {
+        this.description = description;
+    };
+    Note.prototype.setImagePath = function (imagePath) {
+        this.imagePath = imagePath;
+    };
+    Note.prototype.setBackgroundColor = function (backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    };
+    Note.prototype.displayModalNote = function () {
+        var _this = this;
+        var modalArea = document.createElement("div");
+        modalArea.className = "modal-note";
+        var modalTitle = document.createElement("textarea");
+        var modalDescription = document.createElement("textarea");
+        var modalImage = document.createElement("img");
+        var modalEdits = document.createElement("div");
+        modalEdits.className = "edits";
+        var modalChangeBackgroundColor = document.createElement("input");
+        var modalChangeImage = document.createElement("input");
+        var modalSaveButton = document.createElement("button");
+        var modalDeleteButton = document.createElement("button");
+        modalEdits.appendChild(modalChangeBackgroundColor);
+        modalEdits.appendChild(modalChangeImage);
+        modalEdits.appendChild(modalSaveButton);
+        modalEdits.appendChild(modalDeleteButton);
+        modalChangeBackgroundColor.type = "color";
+        modalChangeBackgroundColor.value = this.backgroundColor;
+        modalChangeImage.type = "file";
+        modalSaveButton.textContent = "Save";
+        modalDeleteButton.textContent = "Delete";
+        modalTitle.innerHTML = this.title;
+        modalDescription.innerHTML = this.description;
+        if (this.imagePath !== "") {
+            modalImage.src = this.imagePath;
+        }
+        modalArea.style.backgroundColor = this.backgroundColor;
+        modalTitle.style.backgroundColor = this.backgroundColor;
+        modalDescription.style.backgroundColor = this.backgroundColor;
+        modalArea.appendChild(modalTitle);
+        modalArea.appendChild(modalDescription);
+        modalArea.appendChild(modalImage);
+        modalArea.appendChild(modalEdits);
+        document.body.appendChild(modalArea);
+        modalDescription === null || modalDescription === void 0 ? void 0 : modalDescription.addEventListener("input", function () {
+            modalDescription.style.height = "auto";
+            modalDescription.style.height = modalDescription.scrollHeight + "px";
+        });
+        modalChangeImage.addEventListener("change", function () {
+            var file = this.files[0];
+            if (file) {
+                var reader_1 = new FileReader();
+                reader_1.addEventListener("load", function () {
+                    var result = typeof reader_1.result === "string"
+                        ? new TextEncoder().encode(reader_1.result)
+                        : reader_1.result;
+                    var url = URL.createObjectURL(new Blob([result]));
+                    modalImage.src = url;
+                });
+                reader_1.readAsArrayBuffer(file);
+            }
+        });
+        modalChangeBackgroundColor === null || modalChangeBackgroundColor === void 0 ? void 0 : modalChangeBackgroundColor.addEventListener("input", function (event) {
+            var newColor = event.target.value;
+            modalArea.style.backgroundColor = newColor;
+            modalTitle.style.backgroundColor = newColor;
+            modalDescription.style.backgroundColor = newColor;
+        });
+        modalSaveButton.addEventListener("click", function () {
+            var noteToChange = new Note((_this.title = modalTitle.value), (_this.description = modalDescription.value), (_this.imagePath = modalImage.src), (_this.backgroundColor = modalChangeBackgroundColor.value));
+            document.body.removeChild(modalArea);
+            var backgroundClass = document.querySelector(".background");
+            backgroundClass.classList.remove("blur");
+            displayNotesAfterEditing();
+        });
+        modalDeleteButton.addEventListener("click", function () {
+            document.body.removeChild(modalArea);
+            var backgroundClass = document.querySelector(".background");
+            backgroundClass.classList.remove("blur");
+            displayNotesAfterEditing(_this.id);
+        });
+    };
     Note.prototype.displayNote = function (searchNote) {
+        var _this = this;
         var addedNoteDiv = document.querySelector(".notes-wrapper");
         var noteArea = document.createElement("div");
         var noteTitle = document.createElement("h2");
@@ -27,6 +125,11 @@ var Note = /** @class */ (function () {
         noteArea.appendChild(noteTitle);
         noteArea.appendChild(noteDescription);
         noteArea.appendChild(noteImage);
+        noteArea.addEventListener("click", function () {
+            var body = document.querySelector(".background");
+            body.classList.add("blur");
+            _this.displayModalNote();
+        });
         if (searchNote) {
             var search = searchNote.toLowerCase();
             var titleMatches = this.title.toLowerCase().indexOf(search) !== -1;
@@ -40,6 +143,7 @@ var Note = /** @class */ (function () {
     return Note;
 }());
 var notes = [];
+var idCounter = 0;
 var noteTextArea = document.getElementById("takeNoteTextArea");
 var addNoteInput = document.querySelector(".add-note-input");
 var extendedNote = 0; //so when i press again on the write note section, the
@@ -79,7 +183,7 @@ noteTextArea === null || noteTextArea === void 0 ? void 0 : noteTextArea.addEven
         var clickOutsideHandler_1 = function (event) {
             if (!(addNoteInput === null || addNoteInput === void 0 ? void 0 : addNoteInput.contains(event.target))) {
                 if (titleInput_1.value !== "" && noteTextArea.value !== "") {
-                    var newNote = new Note(titleInput_1.value, noteTextArea.value, imagePreview_1.src, changeBackground_1.value);
+                    var newNote = new Note(titleInput_1.value, noteTextArea.value, imagePreview_1.src, changeBackground_1.value, idCounter++);
                     notes.push(newNote);
                     newNote.displayNote();
                     titleInput_1.remove();
@@ -99,15 +203,15 @@ noteTextArea === null || noteTextArea === void 0 ? void 0 : noteTextArea.addEven
         fileInput.addEventListener("change", function () {
             var file = this.files[0];
             if (file) {
-                var reader_1 = new FileReader();
-                reader_1.addEventListener("load", function () {
-                    var result = typeof reader_1.result === "string"
-                        ? new TextEncoder().encode(reader_1.result)
-                        : reader_1.result;
+                var reader_2 = new FileReader();
+                reader_2.addEventListener("load", function () {
+                    var result = typeof reader_2.result === "string"
+                        ? new TextEncoder().encode(reader_2.result)
+                        : reader_2.result;
                     var url = URL.createObjectURL(new Blob([result]));
                     imagePreview_1.src = url;
                 });
-                reader_1.readAsArrayBuffer(file);
+                reader_2.readAsArrayBuffer(file);
             }
         });
         //background
@@ -120,9 +224,10 @@ noteTextArea === null || noteTextArea === void 0 ? void 0 : noteTextArea.addEven
         //saving the note
         saveButton.addEventListener("click", function () {
             if (titleInput_1.value !== "" && noteTextArea.value !== "") {
-                var newNote = new Note(titleInput_1.value, noteTextArea.value, imagePreview_1.src, changeBackground_1.value);
+                var newNote = new Note(titleInput_1.value, noteTextArea.value, imagePreview_1.src, changeBackground_1.value, idCounter++);
                 notes.push(newNote);
                 newNote.displayNote();
+                console.log(notes);
             }
             titleInput_1.remove();
             changeBackground_1.remove();
@@ -158,3 +263,12 @@ searchNotes.addEventListener("keyup", function () {
         note.displayNote();
     });
 });
+function displayNotesAfterEditing(id) {
+    notes = notes.filter(function (note) { return note.getId() !== id; });
+    while (notesWrapper.firstChild) {
+        notesWrapper.removeChild(notesWrapper.firstChild);
+    }
+    notes.forEach(function (note) {
+        note.displayNote();
+    });
+}

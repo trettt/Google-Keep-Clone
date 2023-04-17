@@ -87,33 +87,38 @@
   margin: 10px;
 }
 
-.buttons {
+.buttons,
+.modal-note .edits {
   display: flex;
   align-items: center;
   gap: 10px;
   margin-bottom: 5px;
 }
 
-.save-button {
+.save-button,
+.modal-note button {
   border-radius: 5px;
   cursor: pointer;
   height: 3vh;
   width: 7vh;
 }
 
-.color-input {
+.color-input,
+.modal-note input[type="color"] {
   border-radius: 5px;
   height: 3vh;
   width: 7vh;
   margin: none;
 }
 
-.image-input {
+.image-input,
+.modal-note input[type="file"] {
   height: 3vh;
   width: 9.5vh;
 }
 
-.image-preview {
+.image-preview,
+.modal-note img {
   width: 50vh;
   height: auto;
   margin-bottom: 10px;
@@ -146,4 +151,28 @@ h3 {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+}
+
+.blur {
+  filter: blur(3px);
+  pointer-events: none;
+}
+
+.modal-note {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  padding: 10px;
+}
+
+.modal-note textarea {
+  resize: none;
+  border: none;
+  outline: none;
 }

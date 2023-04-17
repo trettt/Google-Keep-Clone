@@ -13,20 +13,24 @@
   </head>
 
   <body>
-    <div class="top-part">
-      <img src="images/header-image" />
-      <p>GoogleKeep</p>
-      <input type="text" placeholder="Search note..." id="search-note" />
+    <div class="background">
+      <div class="top-part">
+        <img src="images/header-image" />
+        <p>GoogleKeep</p>
+        <input type="text" placeholder="Search note..." id="search-note" />
+      </div>
+
+      <div class="add-note-input">
+        <textarea
+          type="text"
+          placeholder="Write a note..."
+          id="takeNoteTextArea"
+        ></textarea>
+      </div>
+
+      <div class="notes-wrapper"></div>
     </div>
 
-    <div class="add-note-input">
-      <textarea
-        type="text"
-        placeholder="Write a note..."
-        id="takeNoteTextArea"
-      ></textarea>
-    </div>
-
-    <div class="notes-wrapper"></div>
+    <div class="modal-note"></div>
   </body>
 </html>
