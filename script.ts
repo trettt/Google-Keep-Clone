@@ -30,8 +30,8 @@ class Note {
     ) as HTMLDivElement;
 
     const noteArea = document.createElement("div");
-    const noteTitle = document.createElement("textarea");
-    const noteDescription = document.createElement("textarea");
+    const noteTitle = document.createElement("h2");
+    const noteDescription = document.createElement("h3");
     const noteImage = document.createElement("img");
 
     noteArea.classList.add("added-note");
@@ -125,6 +125,7 @@ noteTextArea?.addEventListener("click", () => {
           );
           notes.push(newNote);
           newNote.displayNote();
+
           titleInput.remove();
           changeBackground.remove();
           buttonsHolder.remove();

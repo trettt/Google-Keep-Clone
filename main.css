@@ -120,31 +120,21 @@
 }
 
 .added-note {
-  display: grid;
-  grid-template-rows: auto auto auto;
-  grid-gap: 10px;
-  justify-content: center;
-
   width: 30%;
-  height: auto;
+  height: fit-content;
   padding: 10px;
 
   margin-top: 10px;
   margin-left: 10px;
 }
 
-.added-note textarea {
-  border: none;
-
-  height: 2vh;
-  width: 20vh;
-
-  resize: none;
+.added-note h2,
+h3 {
+  word-break: normal;
 }
 
-.added-note textarea:focus {
-  border: none;
-  outline: none;
+.added-note h3 {
+  font-weight: normal;
 }
 
 .added-note img {
@@ -155,4 +145,5 @@
 .notes-wrapper {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }

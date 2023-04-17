@@ -14,8 +14,8 @@ var Note = /** @class */ (function () {
     Note.prototype.displayNote = function (searchNote) {
         var addedNoteDiv = document.querySelector(".notes-wrapper");
         var noteArea = document.createElement("div");
-        var noteTitle = document.createElement("textarea");
-        var noteDescription = document.createElement("textarea");
+        var noteTitle = document.createElement("h2");
+        var noteDescription = document.createElement("h3");
         var noteImage = document.createElement("img");
         noteArea.classList.add("added-note");
         noteTitle.innerHTML = this.title;
