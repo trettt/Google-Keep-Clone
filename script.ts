@@ -143,14 +143,14 @@ class Note {
       document.body.removeChild(modalArea);
       const backgroundClass = document.querySelector(".background");
       backgroundClass.classList.remove("blur");
-      displayNotesAfterEditing();
     });
 
     modalDeleteButton.addEventListener("click", async () => {
       document.body.removeChild(modalArea);
       const backgroundClass = document.querySelector(".background");
       backgroundClass.classList.remove("blur");
-      displayNotesAfterEditing(this.id);
+
+      deleteNote(this.id);
     });
   }
 
@@ -236,6 +236,12 @@ function addNote(newNote: Note) {
   });
 }
 
+function deleteNote(id: number) {
+  fetch(`${notesUrl}/${id}`, {
+    method: "DELETE",
+  });
+}
+
 displayTheNotes();
 
 const noteTextArea = document.getElementById(
@@ -299,8 +305,6 @@ noteTextArea?.addEventListener("click", () => {
             changeBackground.value,
             idCounter++
           );
-          // notes.push(newNote);
-          // newNote.displayNote();
           addNote(newNote);
 
           titleInput.remove();
@@ -400,13 +404,3 @@ searchNotes.addEventListener("keyup", () => {
     note.displayNote();
   });
 });
-
-function displayNotesAfterEditing(id?: number): void {
-  notes = notes.filter((note) => note.getId() !== id);
-  while (notesWrapper.firstChild) {
-    notesWrapper.removeChild(notesWrapper.firstChild);
-  }
-  notes.forEach((note) => {
-    note.displayNote();
-  });
-}

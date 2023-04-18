@@ -135,7 +135,7 @@ var Note = /** @class */ (function () {
             document.body.removeChild(modalArea);
             var backgroundClass = document.querySelector(".background");
             backgroundClass.classList.remove("blur");
-            displayNotesAfterEditing();
+            // displayNotesAfterEditing();
         });
         modalDeleteButton.addEventListener("click", function () { return __awaiter(_this, void 0, void 0, function () {
             var backgroundClass;
@@ -143,7 +143,8 @@ var Note = /** @class */ (function () {
                 document.body.removeChild(modalArea);
                 backgroundClass = document.querySelector(".background");
                 backgroundClass.classList.remove("blur");
-                displayNotesAfterEditing(this.id);
+                // displayNotesAfterEditing(this.id);
+                deleteNote(this.id);
                 return [2 /*return*/];
             });
         }); });
@@ -230,6 +231,11 @@ function addNote(newNote) {
             "Content-Type": "application/json",
         },
         body: JSON.stringify(newNote),
+    });
+}
+function deleteNote(id) {
+    fetch("".concat(notesUrl, "/").concat(id), {
+        method: "DELETE",
     });
 }
 displayTheNotes();
@@ -351,12 +357,12 @@ searchNotes.addEventListener("keyup", function () {
         note.displayNote();
     });
 });
-function displayNotesAfterEditing(id) {
-    notes = notes.filter(function (note) { return note.getId() !== id; });
-    while (notesWrapper.firstChild) {
-        notesWrapper.removeChild(notesWrapper.firstChild);
-    }
-    notes.forEach(function (note) {
-        note.displayNote();
-    });
-}
+// function displayNotesAfterEditing(id?: number): void {
+//   notes = notes.filter((note) => note.getId() !== id);
+//   while (notesWrapper.firstChild) {
+//     notesWrapper.removeChild(notesWrapper.firstChild);
+//   }
+//   notes.forEach((note) => {
+//     note.displayNote();
+//   });
+// }
