@@ -131,11 +131,12 @@ var Note = /** @class */ (function () {
             modalDescription.style.backgroundColor = newColor;
         });
         modalSaveButton.addEventListener("click", function () {
-            var noteToChange = new Note((_this.title = modalTitle.value), (_this.description = modalDescription.value), (_this.imagePath = modalImage.src), (_this.backgroundColor = modalChangeBackgroundColor.value));
+            var noteToChange = new Note((_this.title = modalTitle.value), (_this.description = modalDescription.value), (_this.imagePath = modalImage.src), (_this.backgroundColor = modalChangeBackgroundColor.value), _this.id);
             document.body.removeChild(modalArea);
             var backgroundClass = document.querySelector(".background");
             backgroundClass.classList.remove("blur");
-            // displayNotesAfterEditing();
+            deleteNote(_this.id);
+            addNote(noteToChange);
         });
         modalDeleteButton.addEventListener("click", function () { return __awaiter(_this, void 0, void 0, function () {
             var backgroundClass;
@@ -143,7 +144,6 @@ var Note = /** @class */ (function () {
                 document.body.removeChild(modalArea);
                 backgroundClass = document.querySelector(".background");
                 backgroundClass.classList.remove("blur");
-                // displayNotesAfterEditing(this.id);
                 deleteNote(this.id);
                 return [2 /*return*/];
             });
@@ -279,8 +279,6 @@ noteTextArea === null || noteTextArea === void 0 ? void 0 : noteTextArea.addEven
             if (!(addNoteInput === null || addNoteInput === void 0 ? void 0 : addNoteInput.contains(event.target))) {
                 if (titleInput_1.value !== "" && noteTextArea.value !== "") {
                     var newNote = new Note(titleInput_1.value, noteTextArea.value, imagePreview_1.src, changeBackground_1.value, idCounter++);
-                    // notes.push(newNote);
-                    // newNote.displayNote();
                     addNote(newNote);
                     titleInput_1.remove();
                     changeBackground_1.remove();
@@ -357,12 +355,3 @@ searchNotes.addEventListener("keyup", function () {
         note.displayNote();
     });
 });
-// function displayNotesAfterEditing(id?: number): void {
-//   notes = notes.filter((note) => note.getId() !== id);
-//   while (notesWrapper.firstChild) {
-//     notesWrapper.removeChild(notesWrapper.firstChild);
-//   }
-//   notes.forEach((note) => {
-//     note.displayNote();
-//   });
-// }

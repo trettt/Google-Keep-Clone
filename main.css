@@ -175,4 +175,7 @@ h3 {
   resize: none;
   border: none;
   outline: none;
+
+  font-size: large;
+  width: 90%;
 }

@@ -137,12 +137,16 @@ class Note {
         (this.title = modalTitle.value),
         (this.description = modalDescription.value),
         (this.imagePath = modalImage.src),
-        (this.backgroundColor = modalChangeBackgroundColor.value)
+        (this.backgroundColor = modalChangeBackgroundColor.value),
+        this.id
       );
 
       document.body.removeChild(modalArea);
       const backgroundClass = document.querySelector(".background");
       backgroundClass.classList.remove("blur");
+
+      deleteNote(this.id);
+      addNote(noteToChange);
     });
 
     modalDeleteButton.addEventListener("click", async () => {
